@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WayangKu - Virtual Dalang Experience</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/professional.css">
+</head>
+<body>
+    <!-- MAIN STAGE -->
+    <div id="stage">
+        <!-- Back Button (TOP LEFT) -->
+        <a href="../Index.html" style="position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, #8b4513 0%, #6b4423 100%); border: 2px solid #daa520; border-radius: 8px; padding: 10px 20px; color: #f5e6d3; font-size: 14px; font-weight: 700; cursor: pointer; z-index: 1001; box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4); font-family: 'Inter', sans-serif; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;">
+            <span style="font-size: 18px;">←</span>
+            <span>Kembali</span>
+        </a>
+
+        <!-- Debug Gesture Display (TOP LEFT, moved down) -->
+        <div id="gestureDebug" style="position: fixed; top: 80px; left: 10px; background: rgba(0,0,0,0.7); color: #FFD700; padding: 10px 15px; border-radius: 8px; font-family: monospace; font-size: 14px; border: 2px solid #FFD700; z-index: 1000;">
+            <div>👋 <strong>Gesture:</strong> <span id="gestureText">-</span></div>
+            <div>👐 <strong>Mode:</strong> <span id="modeText">-</span></div>
+        </div>
+
+        <!-- Tambah Wayang Button (TOP RIGHT) -->
+        <button id="changeWayangBtn" style="position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%); border: none; border-radius: 8px; padding: 10px 20px; color: #000; font-size: 14px; font-weight: 700; cursor: pointer; z-index: 1000; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4); font-family: 'Inter', sans-serif; display: none;">
+            ➕ Tambah Wayang
+        </button>
+
+        <!-- Settings Panel (RIGHT CENTER) -->
+        <div id="settingsPanel" style="position: fixed; top: 50%; right: 20px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 850;">
+            <!-- Music Selector -->
+            <div style="background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 10px; padding: 8px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
+                <div style="color: #FFD700; font-size: 10px; font-weight: 600; margin-bottom: 6px; font-family: 'Inter', sans-serif;">🎵 MUSIK</div>
+                <select id="musicSelect" style="width: 120px; padding: 4px 8px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; color: #FFD700; font-size: 10px; cursor: pointer; font-family: 'Inter', sans-serif; position: relative; z-index: 1000;">
+                    <option value="gending">Gending Jawa</option>
+                    <option value="slendro">Slendro</option>
+                    <option value="pelog">Pelog</option>
+                    <option value="ketawang">Ketawang</option>
+                    <option value="lancaran">Lancaran</option>
+                    <option value="ladrang">Ladrang</option>
+                    <option value="srepeg">Srepeg</option>
+                    <option value="ayak">Ayak-Ayak</option>
+                    <option value="sampak">Sampak</option>
+                    <option value="gangsaran">Gangsaran</option>
+                </select>
+            </div>
+            
+            <!-- Background Selector -->
+            <div style="background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 10px; padding: 8px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
+                <div style="color: #FFD700; font-size: 10px; font-weight: 600; margin-bottom: 6px; font-family: 'Inter', sans-serif;">🎨 TEMA</div>
+                <select id="bgSelect" style="width: 120px; padding: 4px 8px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; color: #FFD700; font-size: 10px; cursor: pointer; font-family: 'Inter', sans-serif; position: relative; z-index: 999;">
+                    <option value="kelir">Kelir Tradisional</option>
+                    <option value="night">Malam Mistis</option>
+                    <option value="gold">Emas Istana</option>
+                    <option value="forest">Hutan Rimba</option>
+                    <option value="ocean">Laut Selatan</option>
+                    <option value="volcano">Gunung Berapi</option>
+                    <option value="heaven">Kahyangan</option>
+                    <option value="hell">Neraka</option>
+                    <option value="palace">Istana Megah</option>
+                    <option value="sunset">Senja Emas</option>
+                </select>
+            </div>
+            
+            <!-- Accessories Selector -->
+            <div style="background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 10px; padding: 8px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
+                <div style="color: #FFD700; font-size: 10px; font-weight: 600; margin-bottom: 6px; font-family: 'Inter', sans-serif;">🎨 AKSESORIS</div>
+                <select id="accessorySelect" style="width: 120px; padding: 4px 8px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; color: #FFD700; font-size: 10px; cursor: pointer; font-family: 'Inter', sans-serif; position: relative; z-index: 998;">
+                    <option value="">Pilih aksesoris...</option>
+                    <option value="rumput">🌾 Rumput</option>
+                    <option value="pohon">🌳 Pohon</option>
+                    <option value="gunung">⛰️ Gunung</option>
+                    <option value="istana">🏰 Istana</option>
+                    <option value="awan">☁️ Awan</option>
+                    <option value="batu">🪨 Batu</option>
+                    <option value="api">🔥 Api</option>
+                    <option value="air">💧 Air</option>
+                    <option value="bulan">🌙 Bulan</option>
+                    <option value="matahari">☀️ Matahari</option>
+                </select>
+                <button id="clearAccessoriesBtn" style="width: 100%; margin-top: 6px; padding: 4px; background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%); border: none; border-radius: 6px; color: #fff; font-size: 9px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;">🗑️ Clear All</button>
+            </div>
+            
+            <!-- Room ID Display -->
+            <div style="background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 10px; padding: 8px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
+                <div style="color: #FFD700; font-size: 10px; font-weight: 600; margin-bottom: 6px; font-family: 'Inter', sans-serif;">📡 ROOM ID</div>
+                <div style="color: #FFD700; font-size: 12px; font-weight: 700; font-family: 'Courier New', monospace; background: rgba(255, 215, 0, 0.1); padding: 6px; border-radius: 6px; text-align: center;">default-room</div>
+            </div>
+        </div>
+
+        <!-- Wayang Selector - LEFT SIDE VERTICAL -->
+        <div id="wayang-selector" style="position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 900;">
+            <div id="wayangThumbs" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        </div>
+
+        <!-- Instructions - Bottom Center -->
+        <div class="hud-instructions">
+            <div class="instruction-item"><strong>🤏 PINCH</strong> = Grab wayang</div>
+            <div class="instruction-item"><strong>✋ Release</strong> = Drop wayang</div>
+            <div class="instruction-item"><strong>👈 POINT</strong> = Rotate (X=kiri/kanan, Y=depan/belakang)</div>
+            <div class="instruction-item"><strong>✌️ PEACE</strong> = Unique power per character</div>
+            <div class="instruction-item"><strong>1-6</strong> = Switch wayang</div>
+            <div class="instruction-item"><strong>T/Enter</strong> = Dialog box</div>
+        </div>
+
+        <!-- 3D Wayang Scene -->
+        <div id="kelirScreen"></div>
+        <canvas id="wayangCanvas"></canvas>
+        
+        <!-- Hand Tracking Overlay -->
+        <video id="cameraFeed" autoplay playsinline></video>
+        <canvas id="handOverlay"></canvas>
+    </div>
+
+    <!-- CHARACTER PICKER (Initial) -->
+    <div id="characterPicker" class="active">
+        <div class="picker-content">
+            <h1>🎭 WayangKu</h1>
+            <p class="subtitle">Jadilah Dalang Virtual</p>
+            
+            <div class="wayang-grid">
+                <div class="wayang-card" data-id="gajah-mada">
+                    <div class="card-image" style="background-image: url('assets/gajah-mada.jpg'); background-size: cover; background-position: center; width: 100%; height: 180px; border-radius: 12px 12px 0 0;"></div>
+                    <div class="card-name">Gajah Mada</div>
+                </div>
+                <div class="wayang-card" data-id="gatotkaca">
+                    <div class="card-image" style="background-image: url('assets/gatotkaca.jpg'); background-size: cover; background-position: center; width: 100%; height: 180px; border-radius: 12px 12px 0 0;"></div>
+                    <div class="card-name">Gatotkaca</div>
+                </div>
+                <div class="wayang-card" data-id="arjuna">
+                    <div class="card-image" style="background-image: url('assets/arjuna.jpg'); background-size: cover; background-position: center; width: 100%; height: 180px; border-radius: 12px 12px 0 0;"></div>
+                    <div class="card-name">Arjuna</div>
+                </div>
+                <div class="wayang-card" data-id="hang-tuah">
+                    <div class="card-image" style="background-image: url('assets/hang-tuah.jpg'); background-size: cover; background-position: center; width: 100%; height: 180px; border-radius: 12px 12px 0 0;"></div>
+                    <div class="card-name">Hang Tuah</div>
+                </div>
+                <div class="wayang-card" data-id="nyi-roro-kidul">
+                    <div class="card-image" style="background-image: url('assets/nyi-roro-kidul.jpg'); background-size: cover; background-position: center; width: 100%; height: 180px; border-radius: 12px 12px 0 0;"></div>
+                    <div class="card-name">Nyi Roro Kidul</div>
+                </div>
+                <div class="wayang-card" data-id="ken-arok">
+                    <div class="card-image" style="background-image: url('assets/ken-arok.jpg'); background-size: cover; background-position: center; width: 100%; height: 180px; border-radius: 12px 12px 0 0;"></div>
+                    <div class="card-name">Ken Arok</div>
+                </div>
+            </div>
+            
+            <button id="startBtn" class="btn-main">Mulai Pertunjukan 🎭</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Menyiapkan pertunjukan...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    
+    <script src="js/gamelan.js"></script>
+    <script src="js/asset-loader.js"></script>
+    <script src="js/hand-tracker.js"></script>
+    <script src="js/confirm-modal.js"></script>
+    <script src="js/mic-system.js"></script>
+    <script src="js/accessories.js"></script>
+    <script src="js/wayang-3d.js"></script>
+    <script src="js/dialog-system.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
